@@ -225,20 +225,20 @@ export default {
   },
   methods: {
     getProjects () {
-      this.$http.get('/list/search/projects')
+      this.$http.get('/other/list/search/projects')
         .then(res => {
           this.projects = res.result && res.result.data
           this.loading = false
         })
     },
     getActivity () {
-      this.$http.get('/workplace/activity')
+      this.$http.get('/other/workplace/activity')
         .then(res => {
           this.activities = res.result
         })
     },
     getTeams () {
-      this.$http.get('/workplace/teams')
+      this.$http.get('/other/workplace/teams')
         .then(res => {
           this.teams = res.result
         })
@@ -246,7 +246,7 @@ export default {
     initRadar () {
       this.radarLoading = true
 
-      this.$http.get('/workplace/radar')
+      this.$http.get('/other/workplace/radar')
         .then(res => {
           const dv = new DataSet.View().source(res.result)
           dv.transform({
