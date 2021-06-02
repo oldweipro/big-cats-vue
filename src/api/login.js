@@ -3,14 +3,14 @@ import request from '@/utils/request'
 const userApi = {
   Login: '/auth/login',
   Logout: '/auth/logout',
-  ForgePassword: '/auth/forge-password',
+  ForgetPassword: '/auth/forget-password',
   Register: '/auth/register',
   twoStepCode: '/auth/2step-code',
-  SendSms: '/account/sms',
+  SendSms: '/auth/account/sms',
   SendSmsErr: '/account/sms_err',
   // get my info
   UserInfo: '/sys/user/info',
-  UserMenu: '/user/nav'
+  UserMenu: '/sys/user/nav'
 }
 
 /**
