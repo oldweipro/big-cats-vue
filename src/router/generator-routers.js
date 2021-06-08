@@ -50,9 +50,9 @@ const constantRouterComponents = {
   'SecuritySettings': () => import('@/views/account/settings/Security'),
   'CustomSettings': () => import('@/views/account/settings/Custom'),
   'BindingSettings': () => import('@/views/account/settings/Binding'),
-  'NotificationSettings': () => import('@/views/account/settings/Notification')
+  'NotificationSettings': () => import('@/views/account/settings/Notification'),
 
-  // 'TestWork': () => import(/* webpackChunkName: "TestWork" */ '@/views/dashboard/TestWork')
+  'SysUser': () => import('@/views/cats/sysUser/SysUser')
 }
 
 // 前端未找到页面路由（固定不用改）
@@ -81,7 +81,6 @@ const rootRouter = {
 export const generatorDynamicRouter = (token) => {
   return new Promise((resolve, reject) => {
     loginService.getCurrentUserNav(token).then(res => {
-      console.log('res', res)
       const { result } = res
       const menuNav = []
       const childrenNav = []
@@ -89,10 +88,8 @@ export const generatorDynamicRouter = (token) => {
       listToTree(result, childrenNav, 0)
       rootRouter.children = childrenNav
       menuNav.push(rootRouter)
-      console.log('menuNav', menuNav)
       const routers = generator(menuNav)
       routers.push(notFoundRouter)
-      console.log('routers', routers)
       resolve(routers)
     }).catch(err => {
       reject(err)
