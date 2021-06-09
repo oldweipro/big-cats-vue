@@ -50,9 +50,7 @@ const constantRouterComponents = {
   'SecuritySettings': () => import('@/views/account/settings/Security'),
   'CustomSettings': () => import('@/views/account/settings/Custom'),
   'BindingSettings': () => import('@/views/account/settings/Binding'),
-  'NotificationSettings': () => import('@/views/account/settings/Notification'),
-
-  'SysUser': () => import('@/views/cats/sysUser/SysUser')
+  'NotificationSettings': () => import('@/views/account/settings/Notification')
 }
 
 // 前端未找到页面路由（固定不用改）
