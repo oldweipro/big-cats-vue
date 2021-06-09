@@ -32,6 +32,14 @@ export function login (parameter) {
   })
 }
 
+export function register (parameter) {
+  return request({
+    url: userApi.Register,
+    method: 'post',
+    data: parameter
+  })
+}
+
 export function getSmsCaptcha (parameter) {
   return request({
     url: userApi.SendSms,

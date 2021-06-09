@@ -6,6 +6,14 @@
         <a-input
           size="large"
           type="text"
+          :placeholder="$t('user.register.username.placeholder')"
+          v-decorator="['username', {rules: [{ required: true, message: $t('user.username.required') }], validateTrigger: ['change', 'blur']}]"
+        ></a-input>
+      </a-form-item>
+      <a-form-item>
+        <a-input
+          size="large"
+          type="text"
           :placeholder="$t('user.register.email.placeholder')"
           v-decorator="['email', {rules: [{ required: true, type: 'email', message: $t('user.email.required') }], validateTrigger: ['change', 'blur']}]"
         ></a-input>
@@ -52,13 +60,13 @@
           </a-select>
         </a-input>
       </a-form-item>
-      <!--<a-input-group size="large" compact>
-            <a-select style="width: 20%" size="large" defaultValue="+86">
-              <a-select-option value="+86">+86</a-select-option>
-              <a-select-option value="+87">+87</a-select-option>
-            </a-select>
-            <a-input style="width: 80%" size="large" placeholder="11 位手机号"></a-input>
-          </a-input-group>-->
+      <!--<a-input-group size="large" compact>-->
+      <!--  <a-select style="width: 20%" size="large" defaultValue="+86">-->
+      <!--    <a-select-option value="+86">+86</a-select-option>-->
+      <!--    <a-select-option value="+87">+87</a-select-option>-->
+      <!--  </a-select>-->
+      <!--  <a-input style="width: 80%" size="large" placeholder="11 位手机号"></a-input>-->
+      <!--</a-input-group>-->
 
       <a-row :gutter="16">
         <a-col class="gutter-row" :span="16">
@@ -96,9 +104,10 @@
 </template>
 
 <script>
-import { getSmsCaptcha } from '@/api/login'
+import { getSmsCaptcha, register } from '@/api/login'
 import { deviceMixin } from '@/store/device-mixin'
 import { scorePassword } from '@/utils/util'
+import md5 from 'md5'
 
 const levelNames = {
   0: 'user.password.strength.short',
@@ -205,11 +214,21 @@ export default {
     },
 
     handleSubmit () {
-      const { form: { validateFields }, state, $router } = this
+      const { form: { validateFields }, state, $router, $notification } = this
       validateFields({ force: true }, (err, values) => {
         if (!err) {
           state.passwordLevelChecked = false
-          $router.push({ name: 'registerResult', params: { ...values } })
+          values.password = md5(values.password)
+          values.password2 = md5(values.password2)
+          register(values).then(res => {
+            $router.push({ name: 'registerResult', params: { ...values } })
+          }).catch(reason => {
+            $notification['error']({
+              message: '提示',
+              description: reason.response.data.msg,
+              duration: 8
+            })
+          })
         }
       })
     },

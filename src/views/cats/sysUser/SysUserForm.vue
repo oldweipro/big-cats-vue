@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="新建规则"
+    :title="model && model.id > 0 ? '修改用户' : '新建用户'"
     :width="640"
     :visible="visible"
     :confirmLoading="loading"
@@ -13,8 +13,8 @@
         <a-form-item v-show="model && model.id > 0" label="主键ID">
           <a-input v-decorator="['id', { initialValue: 0 }]" disabled />
         </a-form-item>
-        <a-form-item label="描述">
-          <a-input v-decorator="['description', {rules: [{required: true, min: 5, message: '请输入至少五个字符的规则描述！'}]}]" />
+        <a-form-item label="用户名">
+          <a-input v-decorator="['username', {rules: [{required: true, min: 5, message: '请输入至少五个字符的规则描述！'}]}]" />
         </a-form-item>
       </a-form>
     </a-spin>

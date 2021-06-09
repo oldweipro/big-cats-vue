@@ -105,7 +105,7 @@
         </span>
       </s-table>
 
-      <create-form
+      <sys-user-form
         ref="createModal"
         :visible="visible"
         :loading="confirmLoading"
