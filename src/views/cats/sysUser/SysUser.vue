@@ -98,9 +98,9 @@
 
         <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="handleEdit(record)">配置</a>
+            <a @click="handleEdit(record)">编辑</a>
             <a-divider type="vertical" />
-            <a @click="handleSub(record)">订阅报警</a>
+            <a @click="handleDel(record)">删除</a>
           </template>
         </span>
       </s-table>
@@ -121,11 +121,12 @@
 <script>
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import { getRoleList, getUserList } from '@/api/manage'
+import { getRoleList, getUserList, addUser, modifyUser, deleteUser } from '@/api/manage'
 
 import StepByStepModal from './StepByStepModal'
 import SysUserForm from './SysUserForm'
 
+// 数据表格的表头
 const columns = [
   {
     title: '#',
@@ -146,6 +147,10 @@ const columns = [
     sorter: true,
     needTotal: true,
     customRender: (text) => text + ' 次'
+  },
+  {
+    title: '电话',
+    dataIndex: 'telephone'
   },
   {
     title: '电子邮箱',
@@ -252,9 +257,13 @@ export default {
           if (values.id > 0) {
             // 修改 e.g.
             new Promise((resolve, reject) => {
-              setTimeout(() => {
-                resolve()
-              }, 1000)
+              modifyUser(values).then(response => {
+                // 获取返回的结果
+                const result = response.result
+                resolve(result)
+              }).catch(error => {
+                reject(error)
+              })
             }).then(res => {
               this.visible = false
               this.confirmLoading = false
@@ -262,15 +271,18 @@ export default {
               form.resetFields()
               // 刷新表格
               this.$refs.table.refresh()
-
               this.$message.info('修改成功')
             })
           } else {
             // 新增
             new Promise((resolve, reject) => {
-              setTimeout(() => {
-                resolve()
-              }, 1000)
+              addUser(values).then(response => {
+                // 获取返回的结果
+                const result = response.result
+                resolve(result)
+              }).catch(error => {
+                reject(error)
+              })
             }).then(res => {
               this.visible = false
               this.confirmLoading = false
@@ -278,7 +290,6 @@ export default {
               form.resetFields()
               // 刷新表格
               this.$refs.table.refresh()
-
               this.$message.info('新增成功')
             })
           }
@@ -293,12 +304,21 @@ export default {
       const form = this.$refs.createModal.form
       form.resetFields() // 清理表单数据（可不做）
     },
-    handleSub (record) {
-      if (record.status !== 0) {
-        this.$message.info(`${record.no} 订阅成功`)
-      } else {
-        this.$message.error(`${record.no} 订阅失败，规则已关闭`)
-      }
+    handleDel (record) {
+      new Promise((resolve, reject) => {
+        console.log(record.id)
+        deleteUser(record.id).then(response => {
+          // 获取返回的结果
+          const result = response.result
+          resolve(result)
+        }).catch(error => {
+          reject(error)
+        })
+      }).then(res => {
+        // 刷新表格
+        this.$refs.table.refresh()
+        this.$message.info('删除成功')
+      })
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys

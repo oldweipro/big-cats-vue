@@ -2,6 +2,9 @@ import request from '@/utils/request'
 
 const api = {
   user: '/sys/user',
+  addUser: '/sys/user',
+  modifyUser: '/sys/user',
+  deleteUser: '/sys/user/',
   role: '/sys/role',
   service: '/other/service',
   permission: '/permission',
@@ -16,6 +19,29 @@ export function getUserList (parameter) {
     url: api.user,
     method: 'get',
     params: parameter
+  })
+}
+
+export function addUser (parameter) {
+  return request({
+    url: api.addUser,
+    method: 'post',
+    params: parameter
+  })
+}
+
+export function modifyUser (parameter) {
+  return request({
+    url: api.modifyUser,
+    method: 'put',
+    params: parameter
+  })
+}
+
+export function deleteUser (parameter) {
+  return request({
+    url: api.deleteUser + parameter,
+    method: 'delete'
   })
 }
 
