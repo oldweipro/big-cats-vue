@@ -10,7 +10,7 @@ const userApi = {
   SendSmsErr: '/account/sms_err',
   // get my info
   UserInfo: '/sys/user/info',
-  UserMenu: '/sys/user/nav'
+  UserMenu: '/sys/menu/nav'
 }
 
 /**

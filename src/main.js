@@ -8,6 +8,7 @@ import router from './router'
 import store from './store/'
 import i18n from './locales'
 import { VueAxios } from './utils/request'
+import { TreeSelect } from 'ant-design-vue'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
 
@@ -25,6 +26,7 @@ Vue.config.productionTip = false
 
 // mount axios to `Vue.$http` and `this.$http`
 Vue.use(VueAxios)
+Vue.use(TreeSelect)
 // use pro-layout components
 Vue.component('pro-layout', ProLayout)
 Vue.component('page-container', PageHeaderWrapper)

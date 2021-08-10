@@ -53,7 +53,7 @@
 import STree from '@/components/Tree/Tree'
 import { STable } from '@/components'
 import OrgModal from './modules/OrgModal'
-import { getOrgTree, getServiceList } from '@/api/manage'
+import { getMenuTree, getServiceList } from '@/api/manage'
 
 export default {
   name: 'TreeList',
@@ -115,7 +115,7 @@ export default {
     }
   },
   created () {
-    getOrgTree().then(res => {
+    getMenuTree().then(res => {
       this.orgTree = res.result
     })
   },

@@ -48,7 +48,7 @@ export default {
     },
     renderMenuItem (item) {
       return (
-        <Item key={item.key}>
+        <Item key={item.id}>
           { this.renderIcon(item.icon) }
           { item.title }
           <a class="btn" style="width: 20px;z-index:1300" {...{ on: { click: () => this.handlePlus(item) } }}><a-icon type="plus"/></a>
@@ -56,15 +56,15 @@ export default {
       )
     },
     renderItem (item) {
-      return item.children ? this.renderSubItem(item, item.key) : this.renderMenuItem(item, item.key)
+      return item.children.length > 0 ? this.renderSubItem(item, item.id) : this.renderMenuItem(item, item.id)
     },
     renderItemGroup (item) {
       const childrenItems = item.children.map(o => {
-        return this.renderItem(o, o.key)
+        return this.renderItem(o, o.id)
       })
 
       return (
-        <ItemGroup key={item.key}>
+        <ItemGroup key={item.id}>
           <template slot="title">
             <span>{ item.title }</span>
             <a-dropdown>
@@ -82,7 +82,7 @@ export default {
     },
     renderSubItem (item, key) {
       const childrenItems = item.children && item.children.map(o => {
-        return this.renderItem(o, o.key)
+        return this.renderItem(o, o.id)
       })
 
       const title = (

@@ -9,17 +9,15 @@ const api = {
   service: '/other/service',
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
-  orgTree: '/org/tree'
+  menuTree: '/sys/menu/tree',
+  addMenu: '/sys/menu',
+  deleteMenu: '/sys/menu/'
 }
 
 export default api
 
 export function getUserList (parameter) {
-  return request({
-    url: api.user,
-    method: 'get',
-    params: parameter
-  })
+  return getAction(api.user, parameter)
 }
 
 export function addUser (parameter) {
@@ -28,6 +26,14 @@ export function addUser (parameter) {
     method: 'post',
     params: parameter
   })
+}
+
+export function addMenu (data) {
+  return postAction(api.addMenu, data)
+}
+
+export function deleteMenu (data) {
+  return postAction(api.deleteMenu, data)
 }
 
 export function modifyUser (parameter) {
@@ -69,12 +75,8 @@ export function getPermissions (parameter) {
   })
 }
 
-export function getOrgTree (parameter) {
-  return request({
-    url: api.orgTree,
-    method: 'get',
-    params: parameter
-  })
+export function getMenuTree (parameter) {
+  return getAction(api.menuTree, parameter)
 }
 
 // id == 0 add     post
@@ -92,5 +94,29 @@ export function saveSub (sub) {
     url: '/sub',
     method: sub.id === 0 ? 'post' : 'put',
     data: sub
+  })
+}
+
+export function getAction (url, parameter) {
+  return request({
+    url: url,
+    method: 'get',
+    params: parameter
+  })
+}
+
+export function postAction (url, data) {
+  return request({
+    url: url,
+    method: 'post',
+    data: data
+  })
+}
+
+export function putAction (url, data) {
+  return request({
+    url: url,
+    method: 'put',
+    data: data
   })
 }
