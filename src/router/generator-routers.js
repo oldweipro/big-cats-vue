@@ -69,9 +69,7 @@ const rootRouter = {
   path: '',
   component: 'BasicLayout',
   redirect: '/dashboard',
-  meta: {
-    title: '首页'
-  },
+  title: '首页',
   children: []
 }
 
@@ -94,8 +92,11 @@ export const generatorDynamicRouter = token => {
         rootRouter.children = childrenNav
         menuNav.push(rootRouter)
         const routers = generator(menuNav)
+        console.log('动态路由0:', routers)
         routers.push(notFoundRouter)
+        console.log('动态路由1:', routers)
         resolve(routers)
+        console.log('动态路由2:', routers)
       })
       .catch(err => {
         reject(err)

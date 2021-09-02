@@ -68,8 +68,8 @@
                   <div slot="title">
                     <span>{{ item.user.nickname }}</span
                     >&nbsp; 在&nbsp;<a href="#">{{ item.project.name }}</a
-                  >&nbsp; <span>{{ item.project.action }}</span
-                  >&nbsp;
+                    >&nbsp; <span>{{ item.project.action }}</span
+                    >&nbsp;
                     <a href="#">{{ item.project.event }}</a>
                   </div>
                   <div slot="description">{{ item.time }}</div>
@@ -235,25 +235,25 @@ export default {
   },
   methods: {
     getProjects () {
-      this.$http.get('/list/search/projects').then(res => {
+      this.$http.get('/other/list/search/projects').then(res => {
         this.projects = res.result && res.result.data
         this.loading = false
       })
     },
     getActivity () {
-      this.$http.get('/workplace/activity').then(res => {
+      this.$http.get('/other/workplace/activity').then(res => {
         this.activities = res.result
       })
     },
     getTeams () {
-      this.$http.get('/workplace/teams').then(res => {
+      this.$http.get('/other/workplace/teams').then(res => {
         this.teams = res.result
       })
     },
     initRadar () {
       this.radarLoading = true
 
-      this.$http.get('/workplace/radar').then(res => {
+      this.$http.get('/other/workplace/radar').then(res => {
         const dv = new DataSet.View().source(res.result)
         dv.transform({
           type: 'fold',
