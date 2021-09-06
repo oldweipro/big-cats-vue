@@ -1,6 +1,6 @@
 import storage from 'store'
 import { login, getInfo, logout } from '@/api/login'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 
 const user = {
@@ -39,7 +39,10 @@ const user = {
         login(userInfo).then(response => {
           const result = response.result
           storage.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
+          storage.set(TENANT_ID, result.tenantId)
+          // TODO 这个commit是啥意思
           commit('SET_TOKEN', result.token)
+          // commit('TENANT_ID', result.tenantId)
           resolve()
         }).catch(error => {
           reject(error)
@@ -86,6 +89,7 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           storage.remove(ACCESS_TOKEN)
+          storage.remove(TENANT_ID)
           resolve()
         }).catch((err) => {
           console.log('logout fail:', err)

@@ -1,4 +1,5 @@
 export const ACCESS_TOKEN = 'Access-Token'
+export const TENANT_ID = 'Tenant-Id'
 
 export const SIDEBAR_TYPE = 'sidebar_type'
 export const TOGGLE_MOBILE_TYPE = 'is_mobile'
