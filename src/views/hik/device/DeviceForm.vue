@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="设备信息"
-    :width="640"
+    :width="996"
     :visible="visible"
     :confirmLoading="loading"
     @ok="() => { $emit('ok') }"
@@ -45,18 +45,87 @@
         <a-form-item label="端口">
           <a-input v-decorator="['port', {rules: [{required: true, message: '请输入端口，默认8000！'}]}]" />
         </a-form-item>
+        <a-form-item label="设备序列号">
+          <a-input v-decorator="['deviceSn']" />
+        </a-form-item>
       </a-form>
     </a-spin>
+
+    <page-header-wrapper>
+      <s-table
+        ref="table"
+        size="default"
+        rowKey="deviceSN"
+        :columns="searchDeviceColumns"
+        :data="loadData"
+        :alert="true"
+        :rowSelection="rowSelection"
+        showPagination="auto"
+        :scroll="{ x: true }"
+        v-show="!model"
+      >
+        <span slot="action" slot-scope="text, record">
+          <template>
+            <a @click="handleAdd(record)">添加</a>
+          </template>
+        </span>
+      </s-table>
+    </page-header-wrapper>
   </a-modal>
 </template>
 
 <script>
 import pick from 'lodash.pick'
+import { STable } from '@/components'
+import { getDeviceSearchPage } from '@/api/api'
 
 // 表单字段
-const fields = ['categoryId', 'title', 'ip', 'username', 'password', 'port', 'id']
+const fields = ['categoryId', 'title', 'ip', 'username', 'password', 'port', 'id', 'deviceSn']
+
+const searchDeviceColumns = [
+  {
+    title: '设备序列号',
+    dataIndex: 'deviceSN'
+  },
+  {
+    title: 'IP地址',
+    dataIndex: 'ipv4Address'
+  },
+  {
+    title: '端口',
+    dataIndex: 'commandPort'
+  },
+  {
+    title: 'HTTP端口',
+    dataIndex: 'httpPort'
+  },
+  {
+    title: '设备类型',
+    dataIndex: 'deviceDescription'
+  },
+  {
+    title: '开机时间',
+    width: '180px',
+    dataIndex: 'bootTime'
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'modifyTime',
+    width: '180px',
+    sorter: true
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    fixed: 'right',
+    scopedSlots: { customRender: 'action' }
+  }
+]
 
 export default {
+  components: {
+    STable
+  },
   props: {
     visible: {
       type: Boolean,
@@ -72,9 +141,11 @@ export default {
     }
   },
   data () {
+    this.searchDeviceColumns = searchDeviceColumns
     return {
       categoryList: [],
       categoryId: 0,
+      probeMatch: {},
       formLayout: {
         labelCol: {
           xs: { span: 24 },
@@ -84,6 +155,21 @@ export default {
           xs: { span: 24 },
           sm: { span: 13 }
         }
+      },
+      loadData: parameter => {
+        const requestParameters = Object.assign({}, parameter, this.queryParam)
+        return getDeviceSearchPage(requestParameters)
+          .then(res => {
+            return res.result
+          })
+      }
+    }
+  },
+  computed: {
+    rowSelection () {
+      return {
+        selectedRowKeys: this.selectedRowKeys,
+        onChange: this.onSelectChange
       }
     }
   },
@@ -112,6 +198,16 @@ export default {
       return (
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
+    },
+    handleAdd (value) {
+      // TODO 清除全选
+      this.probeMatch.deviceSn = value.deviceSN
+      this.probeMatch.ip = value.ipv4Address
+      this.probeMatch.title = value.deviceDescription + value.ipv4Address
+      this.probeMatch.username = 'admin'
+      this.probeMatch.port = value.commandPort
+      this.probeMatch.categoryId = value.categoryId
+      this.form.setFieldsValue(pick(this.probeMatch, fields))
     }
   }
 }

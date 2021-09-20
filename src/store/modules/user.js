@@ -39,7 +39,7 @@ const user = {
         login(userInfo).then(response => {
           const result = response.result
           storage.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
-          storage.set(TENANT_ID, result.tenantId)
+          storage.set(TENANT_ID, result.tenantId, 7 * 24 * 60 * 60 * 1000)
           // TODO 这个commit是啥意思
           commit('SET_TOKEN', result.token)
           // commit('TENANT_ID', result.tenantId)
@@ -61,8 +61,7 @@ const user = {
             role.permissions = result.role.permissions
             role.permissions.map(per => {
               if (per.actionEntitySet != null && per.actionEntitySet.length > 0) {
-                const action = per.actionEntitySet.map(action => { return action.action })
-                per.actionList = action
+                per.actionList = per.actionEntitySet.map(action => { return action.action })
               }
             })
             role.permissionList = role.permissions.map(permission => { return permission.permissionId })

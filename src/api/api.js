@@ -2,6 +2,8 @@ import { getAction, postAction, putAction } from '@/api/manage'
 
 // 设备管理
 export const getDevicePage = (params) => getAction('/hik/device', params)
+// 从局域网扫描出来的设备列表
+export const getDeviceSearchPage = (params) => getAction('/hik/device/search', params)
 export const addDevice = (params) => postAction('/hik/device', params)
 export const modifyDevice = (params) => putAction('/hik/device', params)
 

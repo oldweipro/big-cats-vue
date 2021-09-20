@@ -111,19 +111,23 @@ const columns = [
   },
   {
     title: '登录状态',
+    width: '90px',
     dataIndex: 'loginStatus'
   },
   {
     title: '布防状态',
+    width: '90px',
     dataIndex: 'alarmStatus'
   },
   {
     title: '推流状态',
+    width: '90px',
     dataIndex: 'pushStatus'
   },
   {
     title: '更新时间',
-    dataIndex: 'createTime',
+    dataIndex: 'modifyTime',
+    width: '180px',
     sorter: true
   },
   {
