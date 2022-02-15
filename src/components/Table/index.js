@@ -11,7 +11,11 @@ export default {
 
       localLoading: false,
       localDataSource: [],
-      localPagination: Object.assign({}, this.pagination)
+      localPagination: Object.assign({}, this.pagination),
+
+      // 存储表格onchange时的filters， sorter对象
+      filters: {},
+      sorter: {}
     }
   },
   props: Object.assign({}, T.props, {
