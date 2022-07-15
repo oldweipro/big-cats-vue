@@ -32,6 +32,7 @@
         <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
       </div>
       <a-table
+        ref="table"
         rowKey="id"
         :columns="columns"
         :data-source="menuTree"
@@ -119,7 +120,6 @@ export default {
   created () {
     getMenuTree().then(res => {
       this.menuTree = res.result
-      console.log(res.result)
       const topMenu = {
         'id': 0,
         'title': '顶级菜单'
@@ -144,18 +144,22 @@ export default {
     },
     handleDel (record) {
       new Promise((resolve, reject) => {
-        console.log(record.id)
         deleteMenu(record.id).then(response => {
           // 获取返回的结果
-          const result = response.result
-          resolve(result)
+          console.log(response)
+          if (response.code === 200) {
+            this.$message.success(response.message)
+            resolve(response.message)
+          } else if (response.code === 500) {
+            this.$message.error(response.message)
+            reject(response.message)
+          }
         }).catch(error => {
-          reject(error)
+          console.log('出错了 -> ', error)
         })
       }).then(res => {
-        // 刷新表格
-        this.$refs.modal.refresh()
-        this.$message.info('删除成功')
+        // TODO 无法刷新表格
+        this.$refs.table.refresh()
       })
     }
   }

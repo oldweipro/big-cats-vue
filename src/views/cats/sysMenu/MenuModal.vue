@@ -100,7 +100,7 @@ export default {
     },
     edit (record) {
       this.visible = true
-      // this.form.setFieldsValue({ ...record })
+      this.form.setFieldsValue({ ...record })
     },
     close () {
       this.$emit('close')

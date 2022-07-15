@@ -213,7 +213,8 @@ export default {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         return getUserList(requestParameters)
           .then(res => {
-            return res.result
+            console.log('loadData result:', res)
+            return res
           })
       },
       selectedRowKeys: [],

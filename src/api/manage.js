@@ -8,7 +8,7 @@ const api = {
   role: '/sys/role',
   service: '/other/service',
   permission: '/permission',
-  permissionNoPager: '/permission/no-pager',
+  permissionNoPager: '/other/permissions',
   menuTree: '/sys/menu/tree',
   addMenu: '/sys/menu',
   deleteMenu: '/sys/menu/'
@@ -33,7 +33,7 @@ export function addMenu (data) {
 }
 
 export function deleteMenu (data) {
-  return postAction(api.deleteMenu, data)
+  return deleteAction(api.deleteMenu, data)
 }
 
 export function modifyUser (parameter) {
@@ -109,6 +109,14 @@ export function postAction (url, data) {
   return request({
     url: url,
     method: 'post',
+    data: data
+  })
+}
+
+export function deleteAction (url, data) {
+  return request({
+    url: url,
+    method: 'delete',
     data: data
   })
 }
